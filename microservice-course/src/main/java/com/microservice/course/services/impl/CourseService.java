@@ -12,7 +12,8 @@ import java.util.Map;
 import java.util.stream.Collectors;
 
 @Service
-public class CourseService implements ICourseService {
+public class
+CourseService implements ICourseService {
 
     private CourseMapper courseMapper;
 
@@ -57,7 +58,7 @@ public class CourseService implements ICourseService {
                     break;
                 case "courseStudents":
                     List<StudentDTO> students = course.getCourseStudents().stream()
-                            .map(studentId -> restTemplate.getForObject(STUDENT_SERVICE_URL + studentId, StudentDTO.class))
+                            .map(studentId -> restTemplateConfig.getForObject(STUDENT_SERVICE_URL + studentId, StudentDTO.class))
                             .collect(Collectors.toList());
                     course.setCourseStudents(students);
                     break;
@@ -76,7 +77,7 @@ public class CourseService implements ICourseService {
         Course course = courseMapper.getCourseById(idCourse);
 
         List<StudentDTO> students = course.getCourseStudents().stream()
-                .map(studentId -> restTemplate.getForObject(STUDENT_SERVICE_URL + studentId, StudentDTO.class))
+                .map(studentId -> restTemplateConfig.getForObject(STUDENT_SERVICE_URL + studentId, StudentDTO.class))
                 .collect(Collectors.toList());
 
         return Course.builder().courseId(course.getCourseId())
